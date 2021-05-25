@@ -42,20 +42,25 @@ contract Audit {
     }
 
     
-    function getAuditHistory(string memory auditID) public view returns (bool auditResult, string memory date, string memory transactionID,
-    string memory uuid, string memory blockchainSender, string memory databaseSender, string memory blockchainReceiver){
-    //string memory databaseReceiver, uint blockchainAmount, uint databaseAmount){
+    function getAuditHistory1(string memory auditID) public view returns (bool auditResult, string memory date, string memory transactionID,
+    string memory uuid, string memory blockchainSender){
         return(
             auditRecords[auditID].auditResult,
             auditRecords[auditID].date,
             auditRecords[auditID].transactionID,
             auditRecords[auditID].uuid,
-            auditRecords[auditID].blockchainSender,
+            auditRecords[auditID].blockchainSender
+            );
+    }
+    
+    function getAuditHistory2(string memory auditID) public view returns (string memory databaseSender, string memory blockchainReceiver,
+    string memory databaseReceiver, uint blockchainAmount, uint databaseAmount){
+        return(
             auditRecords[auditID].databaseSender,
-            auditRecords[auditID].blockchainReceiver
-            //auditRecords[auditID].databaseReceiver,
-            //auditRecords[auditID].blockchainAmount,
-            //auditRecords[auditID].databaseAmount
+            auditRecords[auditID].blockchainReceiver,
+            auditRecords[auditID].databaseReceiver,
+            auditRecords[auditID].blockchainAmount,
+            auditRecords[auditID].databaseAmount
             );
     }
 }

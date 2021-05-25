@@ -275,7 +275,7 @@ router.get('/addTransaction', function (req, res) {
     recipient: req.query.recipient,
     amount: req.query.amount
   });
-  transaction.save(function (err) {
+  transaction.save(function (err, uuid) {
     if (err) {
       console.log(err);
       res.json({
@@ -286,7 +286,8 @@ router.get('/addTransaction', function (req, res) {
     console.log('成功', sender);
     res.json({
       status: true,
-      msg: "上資料庫成功"
+      msg: "上資料庫成功",
+      uuid: uuid.id
     })
   })
 })
@@ -346,6 +347,7 @@ router.get('/payMoney', function (req, res) {
 
 
 router.get('/audit', function (req, res) {
+  var auditID = req.query.auditID;
   var date = req.query.date;
   var transactionID = req.query.transactionID;
   var uuid = req.query.uuid;
@@ -356,7 +358,7 @@ router.get('/audit', function (req, res) {
   var blockchainAmount = req.query.blockchainAmount;
   var databaseAmount = req.query.databaseAmount;
 
-  var txdata = auditContract.methods.audit(date, transactionID, uuid, blockchainSender, databaseSender, blockchainReceiver,
+  var txdata = auditContract.methods.audit(auditID, date, transactionID, uuid, blockchainSender, databaseSender, blockchainReceiver,
     databaseReceiver, blockchainAmount, databaseAmount).encodeABI();
   web3.eth.getTransactionCount(platformAddr, "pending").then(function (nonce) {
     var Tx = require('ethereumjs-tx')
